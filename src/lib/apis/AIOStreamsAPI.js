@@ -171,7 +171,7 @@ class AIOStreamsAPI {
         try {
             // Force no-store to bypass browser cache
             // This ensures we get the newest config each time
-            aiostreamsConfig = await Network.request("config/aiostreams-config.json", { cache: 'no-store' });
+            aiostreamsConfig = await Network.request("/quickstart/config/aiostreams-config.json", { cache: 'no-store' });
 
             // Insert TMDB Access Token
             aiostreamsConfig.tmdbAccessToken = tmdbAccessToken;
@@ -253,7 +253,7 @@ class AIOStreamsAPI {
             // Set the preferred stream expressions
             try {
                 const preferredSelFile = prioritizeQuality ? 'quality.json' : 'resolution.json';
-                const preferredSelUrl = `config/preferred_sel/${preferredSelFile}`;
+                const preferredSelUrl = `/quickstart/config/preferred_sel/${preferredSelFile}`;
                 const preferredSelData = await Network.request(preferredSelUrl, { cache: 'no-store' });
 
                 if (preferredSelData && Array.isArray(preferredSelData)) {
