@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickStart — EasyPeasy</title>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/wizard.css" />
+  <link rel="stylesheet" href="/src/styles/animations.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="wizard-header">
+      <a href="/" class="back-home">&larr; EasyPeasy</a>
+      <h1 class="wizard-title">QuickStart</h1>
+    </header>
+
+    <div class="wizard" id="wizard">
+      <!-- Progress bar -->
+      <div class="wizard-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-steps" id="progressSteps"></div>
+      </div>
+
+      <!-- Wizard steps container -->
+      <div class="wizard-body" id="wizardBody"></div>
+
+      <!-- Navigation -->
+      <div class="wizard-nav" id="wizardNav">
+        <button class="btn btn-secondary" id="btnBack">Back</button>
+        <button class="btn btn-primary" id="btnNext">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
