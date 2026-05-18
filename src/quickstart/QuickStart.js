@@ -328,25 +328,33 @@ export default class QuickStart {
 
             html += '</div></div>';
 
-            Modal.custom(html, 'Select Profiles', [
-                { text: 'Cancel', value: null, style: 'secondary' },
-                { text: 'Confirm', value: 'confirm', style: 'primary' },
-            ]).then(result => {
-                if (result === null) {
-                    resolve(null);
-                    return;
-                }
-
-                // Set up toggle listeners after modal renders
-                const checkboxes = document.querySelectorAll('.profile-checkbox:checked');
-                const ids = Array.from(checkboxes).map(cb => cb.value);
-                resolve(ids.length > 0 ? ids : null);
+            Modal.show({
+                title: 'Select Profiles',
+                message: html,
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        type: 'secondary',
+                        onClick: () => { resolve(null); return true; }
+                    },
+                    {
+                        text: 'Confirm',
+                        type: 'primary',
+                        onClick: () => {
+                            const checkboxes = document.querySelectorAll('.profile-checkbox:checked');
+                            const ids = Array.from(checkboxes).map(cb => cb.value);
+                            resolve(ids.length > 0 ? ids : null);
+                            return true;
+                        }
+                    },
+                ],
             });
 
-            // After modal renders, add toggle behavior
+            // After modal renders, add toggle behavior for profile cards
             setTimeout(() => {
                 document.querySelectorAll('.profile-card').forEach(card => {
-                    card.addEventListener('click', () => {
+                    card.addEventListener('click', (e) => {
+                        e.preventDefault();
                         const cb = card.querySelector('.profile-checkbox');
                         cb.checked = !cb.checked;
                         card.classList.toggle('selected', cb.checked);
