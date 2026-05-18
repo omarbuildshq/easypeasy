@@ -6,6 +6,7 @@
   <title>Addon Butler — EasyPeasy</title>
   <link rel="stylesheet" href="/src/styles/global.css" />
   <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/wizard.css" />
   <link rel="stylesheet" href="/src/styles/animations.css" />
 </head>
 <body>
@@ -15,8 +16,48 @@
       <h1>Addon Butler</h1>
       <p class="page-subtitle">Reorder and manage your addons</p>
     </header>
-    <main id="app-root"></main>
+
+    <main class="tool-container">
+      <!-- Login Section -->
+      <section id="loginSection">
+        <div class="login-card">
+          <div class="form-group">
+            <label class="form-label">Service</label>
+            <div class="service-toggle">
+              <label class="radio-pill">
+                <input type="radio" name="service" value="stremio" checked>
+                <span>Stremio</span>
+              </label>
+              <label class="radio-pill">
+                <input type="radio" name="service" value="nuvio">
+                <span>Nuvio</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" class="form-input" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" id="password" class="form-input" placeholder="Enter password">
+          </div>
+          <button id="loginBtn" class="btn btn-primary" style="width:100%">Load Addons</button>
+        </div>
+      </section>
+
+      <!-- Addon Management Section -->
+      <section id="addonSection" class="hidden">
+        <div id="loggedInHeader" class="logged-in-bar"></div>
+        <div id="addonContainer" class="addon-list"></div>
+        <div id="reorderActions" class="action-bar hidden">
+          <button id="cancelReorderBtn" class="btn btn-secondary">Cancel</button>
+          <button id="applyReorderBtn" class="btn btn-primary">Apply Changes</button>
+        </div>
+      </section>
+    </main>
   </div>
+
   <script type="module" src="./main.js"></script>
 </body>
 </html>

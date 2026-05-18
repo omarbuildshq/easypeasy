@@ -303,3 +303,266 @@
 .mb-sm { margin-bottom: var(--space-sm); }
 .mb-md { margin-bottom: var(--space-md); }
 .mb-lg { margin-bottom: var(--space-lg); }
+
+/* ======================================================
+   Tool Container (shared layout for Addon Butler, CinePatch)
+   ====================================================== */
+.tool-container {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.login-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.user-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.service-toggle {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.radio-pill {
+  cursor: pointer;
+}
+
+.radio-pill input { display: none; }
+
+.radio-pill span {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.radio-pill input:checked + span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.radio-pill:hover span {
+  border-color: var(--accent);
+}
+
+.patch-options {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+}
+
+/* ======================================================
+   Addon Butler — Addon List Items
+   ====================================================== */
+.addon-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.butler-addon-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  cursor: grab;
+}
+
+.butler-addon-item:active {
+  cursor: grabbing;
+}
+
+.butler-addon-item.dragging {
+  opacity: 0.5;
+  border-color: var(--accent);
+}
+
+.butler-addon-item.drag-over {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  transform: scale(1.01);
+}
+
+.butler-drag-handle {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.butler-addon-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.butler-addon-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.addon-icon-fallback {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.butler-addon-name {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addon-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.addon-control-pair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 80px;
+}
+
+.control-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.addon-control-label-text {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.addon-control-status {
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.addon-control-status.allowed { color: var(--success); }
+.addon-control-status.blocked { color: var(--error); }
+
+.control-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--border-color);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.toggle-switch input { display: none; }
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+/* Action Bar */
+.action-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  margin-top: var(--space-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--text-muted);
+}
+
+/* ======================================================
+   Responsive — Addon Butler
+   ====================================================== */
+@media (max-width: 600px) {
+  .butler-addon-item {
+    flex-wrap: wrap;
+  }
+
+  .addon-controls {
+    width: 100%;
+    justify-content: center;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--space-xs);
+  }
+}

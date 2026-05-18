@@ -1,2 +1,8 @@
-// CinePatch entry point — will be built in Phase 7
-console.log('CinePatch loaded');
+/**
+ * CinePatch entry point
+ */
+
+import CinePatch from './CinePatch.js';
+
+const app = new CinePatch();
+app.init();

@@ -6,6 +6,7 @@
   <title>CinePatch — EasyPeasy</title>
   <link rel="stylesheet" href="/src/styles/global.css" />
   <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/wizard.css" />
   <link rel="stylesheet" href="/src/styles/animations.css" />
 </head>
 <body>
@@ -15,8 +16,50 @@
       <h1>CinePatch</h1>
       <p class="page-subtitle">Customize your Cinemeta addon</p>
     </header>
-    <main id="app-root"></main>
+
+    <main class="tool-container">
+      <div class="login-card">
+        <p class="step-description">Log in to your Stremio account to customize which parts of Cinemeta are active. Uncheck all boxes to reset Cinemeta to defaults.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Stremio Email</label>
+          <input type="email" id="email" class="form-input" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Stremio Password</label>
+          <input type="password" id="password" class="form-input" placeholder="Enter password">
+        </div>
+
+        <div class="patch-options">
+          <h3 class="form-label" style="margin-bottom: var(--space-sm);">Select patches to apply</h3>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="patchSearch">
+              <span>Remove Search</span>
+            </label>
+            <div class="form-hint">Removes Cinemeta from search results</div>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="patchCatalogs">
+              <span>Remove Home Catalogs</span>
+            </label>
+            <div class="form-hint">Removes Popular, New, and Featured from home screen</div>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="patchMeta">
+              <span>Remove Metadata</span>
+            </label>
+            <div class="form-hint">Stops Cinemeta from providing movie/series detail pages</div>
+          </div>
+        </div>
+
+        <button id="applyBtn" class="btn btn-primary" style="width:100%">Apply Patches</button>
+      </div>
+    </main>
   </div>
+
   <script type="module" src="./main.js"></script>
 </body>
 </html>

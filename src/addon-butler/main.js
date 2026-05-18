@@ -1,2 +1,8 @@
-// Addon Butler entry point — will be built in Phase 6
-console.log('Addon Butler loaded');
+/**
+ * Addon Butler entry point
+ */
+
+import AddonButler from './AddonButler.js';
+
+const app = new AddonButler();
+app.init();
