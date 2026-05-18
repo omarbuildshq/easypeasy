@@ -21,6 +21,7 @@ export default class AddonButler {
         this.drag = { sourceIndex: null, targetIndex: null };
         this.service = 'stremio';
         this.api = StremioAPI;
+        this.activeProfileId = null; // Nuvio requires a profile ID
 
         this.ui = {
             loginSection: document.getElementById('loginSection'),
@@ -78,7 +79,22 @@ export default class AddonButler {
                 throw new Error('Login failed: No session created.');
             }
 
-            const addons = await this.api.getAddons();
+            // For Nuvio, we need a profile ID to fetch addons
+            if (this.service === 'nuvio') {
+                const profiles = await this.api.getProfiles();
+                if (profiles.length > 1) {
+                    // Let user pick a profile
+                    const profileId = await this.promptProfileSelection(profiles);
+                    if (!profileId) return; // User cancelled
+                    this.activeProfileId = profileId;
+                } else {
+                    this.activeProfileId = profiles[0]?.id || 1;
+                }
+            } else {
+                this.activeProfileId = null;
+            }
+
+            const addons = await this.api.getAddons(this.activeProfileId);
             this.state.addons = addons;
             this.state.savedOrder = this.getOrderSnapshot(addons);
             this.state.savedAddons = this.deepClone(addons);
@@ -98,10 +114,40 @@ export default class AddonButler {
     handleLogout() {
         this.api.logout();
         this.state = { addons: [], savedOrder: [], savedAddons: [], isLoggedIn: false, isSaving: false, pendingChanges: false };
+        this.activeProfileId = null;
         this.ui.addonContainer.innerHTML = '';
         this.ui.loggedInHeader.innerHTML = '';
         this.setPendingNotice(false);
         this.switchView('login');
+    }
+
+    async promptProfileSelection(profiles) {
+        return new Promise((resolve) => {
+            let html = '<div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.75rem;">';
+            profiles.forEach(p => {
+                html += `<button class="btn btn-secondary profile-pick-btn" data-id="${p.id}" style="width:100%">${this.escapeHtml(p.name || `Profile ${p.id}`)}</button>`;
+            });
+            html += '</div>';
+
+            Modal.custom(html, 'Select a Profile', [
+                { text: 'Cancel', value: null, style: 'secondary' },
+            ]).then(result => {
+                resolve(result);
+            });
+
+            // After modal renders, attach click listeners to profile buttons
+            setTimeout(() => {
+                document.querySelectorAll('.profile-pick-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.dataset.id;
+                        // Close the modal by clicking the overlay
+                        const overlay = document.querySelector('.modal-overlay');
+                        if (overlay) overlay.remove();
+                        resolve(parseInt(id, 10));
+                    });
+                });
+            }, 100);
+        });
     }
 
     showLoggedInUI(email) {
@@ -269,7 +315,7 @@ export default class AddonButler {
 
         try {
             // Conflict check
-            const freshAddons = await this.api.getAddons();
+            const freshAddons = await this.api.getAddons(this.activeProfileId);
             const freshOrder = this.getOrderSnapshot(freshAddons);
 
             if (freshOrder.length !== this.state.savedOrder.length ||
@@ -278,7 +324,7 @@ export default class AddonButler {
                 return;
             }
 
-            await this.api.setAddons(this.state.addons);
+            await this.api.setAddons(this.state.addons, this.activeProfileId);
             this.state.savedOrder = this.getOrderSnapshot(this.state.addons);
             this.state.savedAddons = this.deepClone(this.state.addons);
             this.setPendingNotice(false);
